@@ -68,7 +68,7 @@
                 <input class="w-full px-4 py-4 bg-surface-container-low border-none rounded-2xl focus:ring-2 focus:ring-primary text-on-surface transition-all" id="password" placeholder="••••••••" type="password" required />
               </div>
               <button id="btn-submit" class="w-full py-4 bg-primary text-white font-black rounded-full shadow-lg hover:bg-primary-dim hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center space-x-2" type="submit">
-                <span>Ingresar</span>
+                <span id="btn-text">Ingresar</span>
                 <span class="material-symbols-outlined">arrow_forward</span>
               </button>
             </form>
@@ -98,35 +98,40 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
       const SUPABASE_URL = 'https://bnhjmjvioumlpucqivfe.supabase.co';
-      // Corregida: Sb_ (Mayúscula) para evitar el error de Invalid API Key
-      const SUPABASE_KEY = 'Sb_publishable_hay5zTgbMYTKTwleDE5Dpg_pvZQX-ad';
+      // CLAVE ACTUALIZADA: Se usa la que empieza por eyJ...
+      const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJuaGptanZpb3VtbHB1Y3FpdmZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5NTIwMzksImV4cCI6MjA4OTUyODAzOX0.GN62qdHyV9SfVLWOPuqpw1QRgtrMRTtVb4TnuybMOj4'; 
       const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
       document.getElementById('loginForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const btn = document.getElementById('btn-submit');
+        const btnText = document.getElementById('btn-text');
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
 
         btn.disabled = true;
-        btn.innerText = "Verificando...";
+        btnText.innerText = "Verificando...";
 
-        const { data, error } = await _supabase.auth.signInWithPassword({
-          email: email,
-          password: password,
-        });
+        try {
+          const { data, error } = await _supabase.auth.signInWithPassword({
+            email: email,
+            password: password,
+          });
 
-        if (error) {
+          if (error) throw error;
+
+          if (data.user) {
+            // Si el correo es el de admin (chichobs@gmail.com), va al panel admin
+            if (data.user.email === 'chichobs@gmail.com') {
+              window.location.href = 'admin.html';
+            } else {
+              window.location.href = 'clac.html';
+            }
+          }
+        } catch (error) {
           alert("Error al ingresar: " + error.message);
           btn.disabled = false;
-          btn.innerHTML = '<span>Ingresar</span><span class="material-symbols-outlined">arrow_forward</span>';
-        } else {
-          // Lógica de acceso: si eres tú, vas a admin.html, si no a la calculadora
-          if (data.user.email === 'chichobs@gmail.com') {
-            window.location.href = 'admin.html';
-          } else {
-            window.location.href = 'clac.html';
-          }
+          btnText.innerText = "Ingresar";
         }
       });
 
