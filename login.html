@@ -67,7 +67,7 @@
                 <label class="block text-sm font-bold text-on-surface ml-1" for="password">Contraseña</label>
                 <input class="w-full px-4 py-4 bg-surface-container-low border-none rounded-2xl focus:ring-2 focus:ring-primary text-on-surface transition-all" id="password" placeholder="••••••••" type="password" required />
               </div>
-              <button class="w-full py-4 bg-primary text-white font-black rounded-full shadow-lg hover:bg-primary-dim hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center space-x-2" type="submit">
+              <button id="btn-submit" class="w-full py-4 bg-primary text-white font-black rounded-full shadow-lg hover:bg-primary-dim hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center space-x-2" type="submit">
                 <span>Ingresar</span>
                 <span class="material-symbols-outlined">arrow_forward</span>
               </button>
@@ -98,14 +98,18 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
       const SUPABASE_URL = 'https://bnhjmjvioumlpucqivfe.supabase.co';
-      const SUPABASE_KEY = 'sb_publishable_hay5zTgbMYTKTwleDE5Dpg_pvZQX-ad';
+      // Corregida: Sb_ (Mayúscula) para evitar el error de Invalid API Key
+      const SUPABASE_KEY = 'Sb_publishable_hay5zTgbMYTKTwleDE5Dpg_pvZQX-ad';
       const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-      // 1. Inicio de Sesión con Email
       document.getElementById('loginForm').addEventListener('submit', async (e) => {
         e.preventDefault();
+        const btn = document.getElementById('btn-submit');
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
+
+        btn.disabled = true;
+        btn.innerText = "Verificando...";
 
         const { data, error } = await _supabase.auth.signInWithPassword({
           email: email,
@@ -114,13 +118,18 @@
 
         if (error) {
           alert("Error al ingresar: " + error.message);
+          btn.disabled = false;
+          btn.innerHTML = '<span>Ingresar</span><span class="material-symbols-outlined">arrow_forward</span>';
         } else {
-          // Cambiado de usuario.html a clac.html para consistencia
-          window.location.href = 'clac.html';
+          // Lógica de acceso: si eres tú, vas a admin.html, si no a la calculadora
+          if (data.user.email === 'chichobs@gmail.com') {
+            window.location.href = 'admin.html';
+          } else {
+            window.location.href = 'clac.html';
+          }
         }
       });
 
-      // 2. Inicio de Sesión con Google
       async function loginConGoogle() {
         const { error } = await _supabase.auth.signInWithOAuth({
           provider: 'google',
