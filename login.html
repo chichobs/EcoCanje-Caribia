@@ -122,11 +122,12 @@
 
           if (data.user) {
             // Si el correo es el de admin (chichobs@gmail.com), va al panel admin
-            if (data.user.email === 'chichobs206@gmail.com') {
-              window.location.href = 'admin.html';
-            } else {
-              window.location.href = 'clac.html';
-            }
+            // En la línea 125 de tu código
+if (data.user.email.toLowerCase().trim() === 'chichobs206@gmail.com') {
+    window.location.href = 'admin.html';
+} else {
+    window.location.href = 'clac.html';
+}
           }
         } catch (error) {
           alert("Error al ingresar: " + error.message);
