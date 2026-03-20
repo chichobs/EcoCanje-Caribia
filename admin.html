@@ -100,7 +100,7 @@
       // 1. Proteger la ruta (Solo para chichobs@gmail.com)
       async function checkAdmin() {
         const { data: { user } } = await _supabase.auth.getUser();
-        if (!user || user.email !== 'chichobs@gmail.com') {
+        if (!user || user.email !== 'chichobs206@gmail.com') {
           alert("Acceso denegado: Se requieren credenciales de Administrador.");
           window.location.href = 'login.html';
           return;
