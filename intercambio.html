@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>EcoCanje - Catálogo de Recompensas</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    
+    <script id="tailwind-config">
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#006a2b",
+              "primary-dim": "#005d25",
+              "primary-container": "#72fe8f",
+              "on-primary": "#ffffff",
+              "on-primary-container": "#005f26",
+              surface: "#f6f7f6",
+              "on-surface": "#2c2f2f",
+              "on-surface-variant": "#595c5b",
+              "surface-container-low": "#eff1f0",
+              "surface-container-high": "#e0e3e2",
+              "surface-container-lowest": "#ffffff",
+            },
+            fontFamily: { headline: ["Manrope"], body: ["Inter"] },
+          },
+        },
+      };
+    </script>
+    <style>
+      .leaf-shadow { box-shadow: 0 32px 64px -12px rgba(44, 47, 47, 0.06); }
+      .glass-card { background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(20px); }
+      .filled { font-variation-settings: 'FILL' 1; }
+    </style>
+</head>
+
+<body class="bg-surface text-on-surface antialiased">
+    <nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-gray-100">
+      <div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto">
+        <a href="landing.html" class="text-2xl font-black text-primary tracking-tighter font-headline">EcoCanje</a>
+        <div class="hidden md:flex items-center space-x-8 font-bold text-sm">
+          <a class="text-on-surface-variant hover:text-primary transition-all" href="landing.html#como-funciona">Cómo Funciona</a>
+          <a class="text-on-surface-variant hover:text-primary transition-all" href="clac.html">Calculadora</a>
+          <a class="text-primary border-b-2 border-primary pb-1" href="intercambio.html">Recompensas</a>
+          <a class="text-on-surface-variant hover:text-primary transition-all" href="usuario.html">Mi Impacto</a>
+        </div>
+        <div class="flex items-center space-x-4">
+          <button onclick="window.location.href='usuario.html'" class="hidden md:block bg-primary text-white px-6 py-2 rounded-full font-bold shadow-lg active:scale-95 transition-all">
+            Cosechar impacto
+          </button>
+          <div class="flex space-x-2">
+            <span class="material-symbols-outlined p-2 hover:bg-green-50 rounded-full cursor-pointer transition-all">notifications</span>
+            <a href="login.html" class="material-symbols-outlined p-2 hover:bg-green-50 rounded-full cursor-pointer transition-all">account_circle</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main class="pt-28 pb-20 max-w-7xl mx-auto px-6">
+      <header class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div class="max-w-2xl">
+          <h1 class="font-headline text-5xl font-extrabold tracking-tight mb-4">Catálogo de Recompensas</h1>
+          <p class="text-on-surface-variant text-lg leading-relaxed font-medium">
+            Transforma tu compromiso ambiental en beneficios reales. Canjea tus tokens por productos que cuidan el planeta.
+          </p>
+        </div>
+        <div class="glass-card p-6 rounded-3xl border border-white leaf-shadow flex items-center gap-4">
+          <div class="bg-primary-container p-3 rounded-full">
+            <span class="material-symbols-outlined text-primary filled">eco</span>
+          </div>
+          <div>
+            <span class="block text-xs uppercase tracking-widest text-on-surface-variant font-bold">Saldo Actual</span>
+            <span class="text-2xl font-black text-primary font-headline">2,450 ECO</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="flex flex-col md:flex-row gap-10">
+        <aside class="w-full md:w-64 space-y-8">
+          <div>
+            <h3 class="font-headline text-sm font-black uppercase tracking-widest mb-6">Categorías</h3>
+            <div class="space-y-4">
+              <label class="flex items-center group cursor-pointer font-medium text-sm">
+                <input type="checkbox" checked class="rounded border-gray-300 text-primary focus:ring-primary">
+                <span class="ml-3 text-on-surface-variant group-hover:text-primary transition-colors">Sostenibilidad</span>
+              </label>
+              <label class="flex items-center group cursor-pointer font-medium text-sm">
+                <input type="checkbox" class="rounded border-gray-300 text-primary focus:ring-primary">
+                <span class="ml-3 text-on-surface-variant group-hover:text-primary transition-colors">Hogar Eco</span>
+              </label>
+              <label class="flex items-center group cursor-pointer font-medium text-sm">
+                <input type="checkbox" class="rounded border-gray-300 text-primary focus:ring-primary">
+                <span class="ml-3 text-on-surface-variant group-hover:text-primary transition-colors">Descuentos</span>
+              </label>
+            </div>
+          </div>
+          <div class="bg-primary-container/20 p-6 rounded-3xl">
+            <h4 class="font-headline font-bold text-sm mb-2">¿Necesitas más ECO?</h4>
+            <p class="text-xs text-on-surface-variant leading-relaxed mb-4">Valida tus reciclajes en puntos autorizados y suma tokens.</p>
+            <button class="text-xs font-bold text-primary flex items-center group">
+              Ver mapa de puntos
+              <span class="material-symbols-outlined text-sm ml-1 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+            </button>
+          </div>
+        </aside>
+
+        <div class="flex-1">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <article class="bg-white rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border border-gray-100">
+              <div class="aspect-square relative overflow-hidden bg-gray-50">
+                <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1607412323710-33049100589d?auto=format&fit=crop&q=80&w=400" alt="Bamboo" />
+                <div class="absolute top-4 left-4 bg-primary-container/90 backdrop-blur px-3 py-1 rounded-full">
+                  <span class="text-[10px] font-black uppercase text-on-primary-container">Popular</span>
+                </div>
+              </div>
+              <div class="p-6">
+                <h3 class="font-headline text-lg font-bold mb-1">Set Higiene Bamboo</h3>
+                <p class="text-xs text-on-surface-variant mb-4 font-semibold uppercase">Sostenibilidad</p>
+                <div class="flex items-center justify-between">
+                  <span class="text-xl font-black text-primary">450 ECO</span>
+                  <button class="bg-primary text-white px-4 py-2 rounded-full text-sm font-bold active:scale-95 transition-all">Canjear</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="bg-white rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border border-gray-100">
+              <div class="aspect-square relative overflow-hidden bg-gray-50">
+                <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1544816153-097305948332?auto=format&fit=crop&q=80&w=400" alt="Bolsa" />
+              </div>
+              <div class="p-6">
+                <h3 class="font-headline text-lg font-bold mb-1">Bolsa Reutilizable</h3>
+                <p class="text-xs text-on-surface-variant mb-4 font-semibold uppercase">Hogar</p>
+                <div class="flex items-center justify-between">
+                  <span class="text-xl font-black text-primary">120 ECO</span>
+                  <button class="bg-primary text-white px-4 py-2 rounded-full text-sm font-bold active:scale-95 transition-all">Canjear</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="bg-white rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border border-gray-100">
+              <div class="aspect-square flex flex-col items-center justify-center bg-gradient-to-br from-primary-container/20 to-white">
+                <span class="material-symbols-outlined text-6xl text-primary opacity-40 mb-2">local_shipping</span>
+                <span class="font-headline font-black text-2xl">ENVÍO GRATIS</span>
+              </div>
+              <div class="p-6">
+                <h3 class="font-headline text-lg font-bold mb-1">Bono Envío</h3>
+                <p class="text-xs text-on-surface-variant mb-4 font-semibold uppercase">Servicios</p>
+                <div class="flex items-center justify-between">
+                  <span class="text-xl font-black text-primary">250 ECO</span>
+                  <button class="bg-primary text-white px-4 py-2 rounded-full text-sm font-bold active:scale-95 transition-all">Canjear</button>
+                </div>
+              </div>
+            </article>
+
+          </div>
+        </div>
+      </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!doctype html>
+<html class="light" lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Ingresar | EcoCanje</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <script id="tailwind-config">
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#006a2b",
+              "primary-dim": "#005d25",
+              "primary-container": "#72fe8f",
+              "on-primary": "#ffffff",
+              background: "#f6f7f6",
+              surface: "#f6f7f6",
+              "on-surface": "#2c2f2f",
+              "on-surface-variant": "#595c5b",
+              "surface-container-low": "#eff1f0",
+              "surface-container-high": "#e0e3e2",
+              "surface-container-lowest": "#ffffff",
+              outline: "#757777",
+            },
+            fontFamily: { headline: ["Manrope"], body: ["Inter"] },
+          },
+        },
+      };
+    </script>
+    <style>
+      .leaf-shadow { box-shadow: 0 32px 64px -12px rgba(44, 47, 47, 0.08); }
+      .glass-panel { background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(24px); }
+    </style>
+</head>
+
+<body class="bg-surface text-on-surface min-h-screen flex items-center justify-center p-4 md:p-8">
+    <main class="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      
+      <div class="hidden lg:flex lg:col-span-7 flex-col space-y-8 pr-12">
+        <div class="inline-flex items-center space-x-2 text-primary">
+          <span class="material-symbols-outlined text-4xl">recycling</span>
+          <span class="text-3xl font-black font-headline tracking-tighter">EcoCanje</span>
+        </div>
+        <div class="relative">
+          <h1 class="text-6xl xl:text-7xl font-extrabold font-headline leading-[1.1] tracking-tight text-on-surface">
+            Bienvenido de nuevo a la <span class="text-primary italic">revolución circular</span>.
+          </h1>
+          <p class="mt-6 text-xl text-on-surface-variant max-w-lg leading-relaxed">
+            Tu impacto importa. Accede a tu billetera ecológica y sigue transformando residuos en valor.
+          </p>
+        </div>
+        <div class="grid grid-cols-2 gap-4 pt-8">
+          <div class="p-6 bg-primary-container/30 rounded-3xl space-y-2">
+            <span class="material-symbols-outlined text-primary text-3xl">nature_people</span>
+            <p class="text-sm font-bold uppercase tracking-widest text-primary">Comunidad</p>
+            <p class="text-2xl font-bold font-headline">+50k Usuarios</p>
+          </div>
+          <div class="p-6 bg-surface-container-high rounded-3xl space-y-2">
+            <span class="material-symbols-outlined text-primary text-3xl">eco</span>
+            <p class="text-sm font-bold uppercase tracking-widest text-on-surface-variant">Impacto</p>
+            <p class="text-2xl font-bold font-headline">1.2M Kg Reciclados</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-5 w-full">
+        <div class="glass-panel leaf-shadow p-8 md:p-12 rounded-[2.5rem] border border-white/50 relative overflow-hidden">
+          <div class="absolute -top-24 -right-24 w-64 h-64 bg-primary-container/20 rounded-full blur-3xl"></div>
+          
+          <div class="relative z-10 space-y-8">
+            <div class="space-y-4">
+              <h3 class="text-xs font-bold text-on-surface-variant tracking-wide uppercase px-1">Ingresa con tus redes</h3>
+              <div class="grid grid-cols-1 gap-4">
+                <button onclick="loginConGoogle()" class="flex items-center justify-center py-4 px-4 bg-white border border-gray-100 hover:bg-gray-50 rounded-2xl transition-all group shadow-sm active:scale-95">
+                  <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-5 h-5 mr-3" alt="Google">
+                  <span class="text-sm font-bold text-gray-700">Continuar con Google</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="relative flex items-center py-2">
+              <div class="flex-grow border-t border-gray-200"></div>
+              <span class="flex-shrink mx-4 text-xs font-bold text-on-surface-variant uppercase tracking-widest">o usa tu email</span>
+              <div class="flex-grow border-t border-gray-200"></div>
+            </div>
+
+            <form id="loginForm" class="space-y-5">
+              <div class="space-y-2">
+                <label class="block text-sm font-bold text-on-surface ml-1" for="email">Correo Electrónico</label>
+                <div class="relative">
+                  <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant text-xl">mail</span>
+                  <input class="w-full pl-12 pr-4 py-4 bg-surface-container-low border-none rounded-2xl focus:ring-2 focus:ring-primary text-on-surface transition-all placeholder:text-gray-400" id="email" placeholder="nombre@ejemplo.com" type="email" required />
+                </div>
+              </div>
+              <div class="space-y-2">
+                <div class="flex justify-between items-center px-1">
+                  <label class="block text-sm font-bold text-on-surface" for="password">Contraseña</label>
+                  <a class="text-xs font-bold text-primary hover:underline underline-offset-4" href="#">¿Olvidaste tu contraseña?</a>
+                </div>
+                <div class="relative">
+                  <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant text-xl">lock</span>
+                  <input class="w-full pl-12 pr-4 py-4 bg-surface-container-low border-none rounded-2xl focus:ring-2 focus:ring-primary text-on-surface transition-all placeholder:text-gray-400" id="password" placeholder="••••••••" type="password" required />
+                </div>
+              </div>
+              <button class="w-full py-4 bg-primary text-white font-black rounded-full shadow-lg hover:bg-primary-dim hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center space-x-2" type="submit">
+                <span>Ingresar</span>
+                <span class="material-symbols-outlined">arrow_forward</span>
+              </button>
+            </form>
+
+            <div class="pt-6 text-center border-t border-gray-100">
+              <p class="text-sm text-on-surface-variant font-medium">
+                ¿Aún no eres parte?
+                <a class="text-primary font-black hover:underline underline-offset-4 ml-1" href="index.html">Crea una cuenta</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+      const SUPABASE_URL = 'https://bnhjmjvioumlpucqivfe.supabase.co';
+      const SUPABASE_KEY = 'sb_publishable_hay5zTgbMYTKTwleDE5Dpg_pvZQX-ad';
+      const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+      // 1. Inicio de Sesión con Email
+      document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        const { data, error } = await _supabase.auth.signInWithPassword({
+          email: email,
+          password: password,
+        });
+
+        if (error) {
+          alert("Error al ingresar: " + error.message);
+        } else {
+          window.location.href = 'usuario.html';
+        }
+      });
+
+      // 2. Inicio de Sesión con Google
+      async function loginConGoogle() {
+        const { error } = await _supabase.auth.signInWithOAuth({
+          provider: 'google',
+          options: {
+            redirectTo: window.location.origin + '/usuario.html'
+          }
+        });
+        if (error) alert("Error con Google: " + error.message);
+      }
+    </script>
+</body>
+</html>

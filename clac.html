@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>EcoCanje - Calculadora de Impacto</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    
+    <script id="tailwind-config">
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#006a2b",
+              "primary-dim": "#005d25",
+              "primary-container": "#72fe8f",
+              surface: "#f6f7f6",
+              "on-surface": "#2c2f2f",
+              "on-surface-variant": "#595c5b",
+              "surface-container-low": "#eff1f0",
+            },
+            fontFamily: { headline: ["Manrope"], body: ["Inter"] },
+          },
+        },
+      };
+    </script>
+    <style>
+      .glass-panel { background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(20px); }
+      .filled { font-variation-settings: 'FILL' 1; }
+      input[type="range"] { accent-color: #006a2b; }
+    </style>
+</head>
+
+<body class="bg-surface text-on-surface antialiased">
+    <nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-gray-100">
+      <div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto">
+        <a href="index.html" class="text-2xl font-black text-primary tracking-tighter font-headline">EcoCanje</a>
+        <div class="hidden md:flex items-center space-x-8 font-bold text-sm">
+          <a class="text-on-surface-variant hover:text-primary transition-all" href="landing.html">Cómo Funciona</a>
+          <a class="text-primary border-b-2 border-primary pb-1" href="clac.html">Calculadora</a>
+          <a class="text-on-surface-variant hover:text-primary transition-all" href="intercambio.html">Recompensas</a>
+          <a class="text-on-surface-variant hover:text-primary transition-all" href="usuario.html">Mi Impacto</a>
+        </div>
+        <button onclick="window.location.href='usuario.html'" class="bg-primary text-white px-6 py-2 rounded-full font-bold shadow-lg active:scale-95 transition-all text-sm">
+          Cosechar impacto
+        </button>
+      </div>
+    </nav>
+
+    <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+      <header class="mb-16">
+        <h1 class="text-5xl md:text-7xl font-black font-headline tracking-tighter mb-4 leading-tight">
+          Simula tu <span class="text-primary italic">huella positiva</span>
+        </h1>
+        <p class="text-lg text-on-surface-variant max-w-xl font-medium">
+          Calcula cuántos Tokens ECO recibirás por tus materiales reciclables.
+        </p>
+      </header>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+        <div class="lg:col-span-7 space-y-6">
+          <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100 space-y-10">
+            <div class="space-y-4">
+              <div class="flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-primary">liquor</span>
+                  </div>
+                  <span class="font-bold">Envases de Plástico</span>
+                </div>
+                <span class="text-primary font-black text-xl"><span id="val-plastic">42</span> <small class="text-xs text-on-surface-variant">ud</small></span>
+              </div>
+              <input type="range" id="input-plastic" class="w-full" max="100" min="0" value="42" oninput="updateCalculadora()">
+            </div>
+
+            <div class="space-y-4">
+              <div class="flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-blue-700">construction</span>
+                  </div>
+                  <span class="font-bold">Hierro / Metal</span>
+                </div>
+                <span class="text-primary font-black text-xl"><span id="val-iron">15.5</span> <small class="text-xs text-on-surface-variant">kg</small></span>
+              </div>
+              <input type="range" id="input-iron" class="w-full" max="50" min="0" step="0.5" value="15.5" oninput="updateCalculadora()">
+            </div>
+
+            <div class="space-y-4">
+              <div class="flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-amber-700">wine_bar</span>
+                  </div>
+                  <span class="font-bold">Vidrio</span>
+                </div>
+                <span class="text-primary font-black text-xl"><span id="val-glass">8</span> <small class="text-xs text-on-surface-variant">kg</small></span>
+              </div>
+              <input type="range" id="input-glass" class="w-full" max="50" min="0" value="8" oninput="updateCalculadora()">
+            </div>
+          </div>
+
+          <div class="bg-primary-container/20 p-8 rounded-[2rem] flex items-start gap-4 border border-primary/10">
+            <span class="material-symbols-outlined text-primary text-3xl">info</span>
+            <p class="text-sm font-medium leading-relaxed">
+              Los materiales deben estar limpios y secos. La validación final se realiza en los centros autorizados de <b>EcoCanje</b>.
+            </p>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 lg:sticky lg:top-32">
+          <div class="glass-panel p-10 rounded-[3rem] border border-white shadow-2xl shadow-primary/5 text-center">
+            <span class="text-xs uppercase tracking-widest font-black text-on-surface-variant block mb-4">Recompensa Estimada</span>
+            <div class="flex items-center justify-center gap-2 mb-10">
+              <span id="total-eco" class="text-7xl font-black font-headline text-primary tracking-tighter">0</span>
+              <div class="text-left">
+                <span class="text-primary text-xl font-bold block">ECO</span>
+                <span class="text-on-surface-variant text-[10px] font-bold uppercase">Tokens</span>
+              </div>
+            </div>
+
+            <div class="space-y-4 mb-10">
+              <div class="flex items-center justify-between p-4 bg-white/50 rounded-2xl border border-white/50">
+                <span class="text-sm font-bold flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm">co2</span> CO2 Ahorrado</span>
+                <span class="font-black text-primary"><span id="res-co2">0</span> kg</span>
+              </div>
+              <div class="flex items-center justify-between p-4 bg-white/50 rounded-2xl border border-white/50">
+                <span class="text-sm font-bold flex items-center gap-2"><span class="material-symbols-outlined text-blue-500 text-sm">water_drop</span> Agua Preservada</span>
+                <span class="font-black text-blue-600"><span id="res-water">0</span> L</span>
+              </div>
+            </div>
+
+            <button onclick="registrarEntrega()" class="w-full bg-primary text-white py-5 rounded-full font-black text-lg shadow-xl hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3">
+              <span class="material-symbols-outlined filled">check_circle</span>
+              Registrar mi Entrega
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      function updateCalculadora() {
+        // Valores de los inputs
+        const plastic = parseFloat(document.getElementById('input-plastic').value);
+        const iron = parseFloat(document.getElementById('input-iron').value);
+        const glass = parseFloat(document.getElementById('input-glass').value);
+
+        // Actualizar etiquetas visuales
+        document.getElementById('val-plastic').innerText = plastic;
+        document.getElementById('val-iron').innerText = iron;
+        document.getElementById('val-glass').innerText = glass;
+
+        // Cálculos (Simulados basados en estándares de reciclaje)
+        // 1 envase plástico = 5 ECO | 1kg Hierro = 40 ECO | 1kg Vidrio = 15 ECO
+        const totalEco = (plastic * 5) + (iron * 40) + (glass * 15);
+        const co2 = (plastic * 0.1 + iron * 1.5 + glass * 0.3).toFixed(1);
+        const water = Math.floor(plastic * 2 + iron * 10 + glass * 5);
+
+        // Inyectar en el HTML
+        document.getElementById('total-eco').innerText = totalEco.toLocaleString();
+        document.getElementById('res-co2').innerText = co2;
+        document.getElementById('res-water').innerText = water;
+      }
+
+      function registrarEntrega() {
+        alert("¡Cálculo guardado! Dirígete a un punto de canje con tu código QR en la sección 'Mi Impacto'.");
+        window.location.href = 'usuario.html';
+      }
+
+      // Inicializar al cargar
+      window.onload = updateCalculadora;
+    </script>
+</body>
+</html>

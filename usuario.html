@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>EcoCanje - Tu Impacto Positivo</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    
+    <script id="tailwind-config">
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#006a2b",
+              "primary-dim": "#005d25",
+              "primary-container": "#72fe8f",
+              "on-primary-container": "#005f26",
+              background: "#f6f7f6",
+              surface: "#f6f7f6",
+              "on-surface": "#2c2f2f",
+              "on-surface-variant": "#595c5b",
+              "surface-container-low": "#eff1f0",
+              "surface-container-highest": "#dadddc",
+              "surface-container-lowest": "#ffffff",
+            },
+            fontFamily: { headline: ["Manrope"], body: ["Inter"] },
+          },
+        },
+      };
+    </script>
+    <style>
+      .leaf-shadow { box-shadow: 0 32px 64px -12px rgba(44, 47, 47, 0.06); }
+      .glass-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); }
+    </style>
+  </head>
+
+  <body class="bg-surface text-on-background">
+    <nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-gray-100">
+      <div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto">
+        <div class="flex items-center gap-8">
+          <span class="text-2xl font-black text-green-800 tracking-tighter font-headline">EcoCanje</span>
+        </div>
+        <div class="flex items-center gap-4">
+          <button onclick="cerrarSesion()" class="text-sm font-bold text-red-600 hover:bg-red-50 px-4 py-2 rounded-full transition">
+            Cerrar Sesión
+          </button>
+          <span class="material-symbols-outlined p-2 text-slate-600 bg-green-50 rounded-full cursor-pointer">account_circle</span>
+        </div>
+      </div>
+    </nav>
+
+    <main class="pt-28 pb-20 px-6 max-w-7xl mx-auto">
+      <header class="mb-12">
+        <h1 class="text-4xl md:text-5xl font-black font-headline tracking-tight text-primary mb-2">
+          Hola, <span id="userName">Cargando...</span>.
+        </h1>
+        <p class="text-on-surface-variant font-body">Tu huella positiva está creciendo. Mira lo que has logrado hoy.</p>
+      </header>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+        <div class="md:col-span-4 bg-surface-container-lowest leaf-shadow rounded-3xl p-8 flex flex-col justify-between relative group overflow-hidden border border-gray-100">
+          <div class="absolute top-0 right-0 p-6 opacity-10">
+            <span class="material-symbols-outlined text-8xl" style="font-variation-settings: 'FILL' 1">eco</span>
+          </div>
+          <div>
+            <p class="text-sm font-bold text-on-surface-variant uppercase tracking-widest mb-2">Saldo actual</p>
+            <div class="flex items-baseline gap-2">
+              <span id="userPoints" class="text-6xl font-black font-headline tracking-tighter text-primary">0</span>
+              <span class="text-xl font-bold text-primary-dim">ECO</span>
+            </div>
+          </div>
+          <div class="mt-8">
+            <button class="w-full bg-primary text-white font-bold py-4 rounded-2xl hover:bg-primary-dim transition-all shadow-lg shadow-green-900/20">
+              Canjear Recompensas
+            </button>
+          </div>
+        </div>
+
+        <div class="md:col-span-8 bg-primary-container/20 rounded-3xl p-8 leaf-shadow border border-white/40 flex flex-col md:flex-row items-center gap-8 relative overflow-hidden">
+          <div class="flex-1">
+            <h3 class="text-2xl font-black font-headline mb-4 text-on-primary-container">Tu huella regenerativa</h3>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="bg-white/60 backdrop-blur-md p-6 rounded-2xl">
+                <p class="text-3xl font-black font-headline text-primary-dim">42.5kg</p>
+                <p class="text-xs font-bold text-on-surface-variant uppercase">CO2 Ahorrado</p>
+              </div>
+              <div class="bg-white/60 backdrop-blur-md p-6 rounded-2xl">
+                <p class="text-3xl font-black font-headline text-primary-dim">3.2</p>
+                <p class="text-xs font-bold text-on-surface-variant uppercase">Árboles Equiv.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+      const SUPABASE_URL = 'https://bnhjmjvioumlpucqivfe.supabase.co';
+      const SUPABASE_KEY = 'sb_publishable_hay5zTgbMYTKTwleDE5Dpg_pvZQX-ad';
+      const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+      async function checkUser() {
+        // 1. Verificar si hay sesión activa
+        const { data: { session } } = await _supabase.auth.getSession();
+
+        if (!session) {
+          window.location.href = 'index.html'; // Si no hay usuario, fuera
+          return;
+        }
+
+        const user = session.user;
+
+        // 2. Mostrar nombre real
+        const nombreMostrar = user.user_metadata.full_name || user.email.split('@')[0];
+        document.getElementById('userName').innerText = nombreMostrar;
+
+        // 3. Obtener puntos de la base de datos
+        const { data, error } = await _supabase
+          .from('perfiles')
+          .select('puntos')
+          .eq('id', user.id)
+          .single();
+
+        if (data) {
+          document.getElementById('userPoints').innerText = data.puntos.toLocaleString();
+        }
+      }
+
+      async function cerrarSesion() {
+        await _supabase.auth.signOut();
+        window.location.href = 'index.html';
+      }
+
+      // Ejecutar al cargar
+      checkUser();
+    </script>
+  </body>
+</html>
