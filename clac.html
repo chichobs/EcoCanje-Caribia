@@ -132,7 +132,7 @@
               </div>
             </div>
 
-            <button onclick="registrarEntrega()" class="w-full bg-primary text-white py-5 rounded-full font-black text-lg shadow-xl hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3">
+            <button id="btn-registrar" class="w-full bg-primary text-white py-5 rounded-full font-black text-lg shadow-xl hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3">
               <span class="material-symbols-outlined filled">check_circle</span>
               Registrar mi Entrega
             </button>
@@ -141,36 +141,67 @@
       </div>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
+      // Configuración Supabase
+      const SUPABASE_URL = 'https://bnhjmjvioumlpucqivfe.supabase.co';
+      const SUPABASE_KEY = 'Sb_publishable_hay5zTgbMYTKTwleDE5Dpg_pvZQX-ad';
+      const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
       function updateCalculadora() {
-        // Valores de los inputs
         const plastic = parseFloat(document.getElementById('input-plastic').value);
         const iron = parseFloat(document.getElementById('input-iron').value);
         const glass = parseFloat(document.getElementById('input-glass').value);
 
-        // Actualizar etiquetas visuales
+        // Actualizar visuales
         document.getElementById('val-plastic').innerText = plastic;
         document.getElementById('val-iron').innerText = iron;
         document.getElementById('val-glass').innerText = glass;
 
-        // Cálculos (Simulados basados en estándares de reciclaje)
-        // 1 envase plástico = 5 ECO | 1kg Hierro = 40 ECO | 1kg Vidrio = 15 ECO
-        const totalEco = (plastic * 5) + (iron * 40) + (glass * 15);
+        // Cálculos
+        const totalEco = Math.round((plastic * 5) + (iron * 40) + (glass * 15));
         const co2 = (plastic * 0.1 + iron * 1.5 + glass * 0.3).toFixed(1);
         const water = Math.floor(plastic * 2 + iron * 10 + glass * 5);
 
-        // Inyectar en el HTML
+        // Inyectar resultados
         document.getElementById('total-eco').innerText = totalEco.toLocaleString();
         document.getElementById('res-co2').innerText = co2;
         document.getElementById('res-water').innerText = water;
+
+        return { plastic, iron, glass, totalEco };
       }
 
-      function registrarEntrega() {
-        alert("¡Cálculo guardado! Dirígete a un punto de canje con tu código QR en la sección 'Mi Impacto'.");
-        window.location.href = 'usuario.html';
+      async function registrarEntrega() {
+        const btn = document.getElementById('btn-registrar');
+        const dataValues = updateCalculadora();
+        
+        btn.disabled = true;
+        btn.innerText = "Enviando...";
+
+        const { data, error } = await supabaseClient
+          .from('entregas')
+          .insert([
+            { 
+              plastico: dataValues.plastic, 
+              hierro: dataValues.iron, 
+              vidrio: dataValues.glass,
+              tokens_estimados: dataValues.totalEco,
+              estado: 'pendiente'
+            }
+          ]);
+
+        if (error) {
+          alert("Error: " + error.message);
+          btn.disabled = false;
+          btn.innerHTML = `<span class="material-symbols-outlined filled">check_circle</span> Registrar mi Entrega`;
+        } else {
+          alert("¡Registro exitoso! Los datos se han enviado a la nube.");
+          window.location.href = 'usuario.html';
+        }
       }
 
-      // Inicializar al cargar
+      // Event Listeners
+      document.getElementById('btn-registrar').addEventListener('click', registrarEntrega);
       window.onload = updateCalculadora;
     </script>
 </body>
