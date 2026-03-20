@@ -16,14 +16,8 @@
               primary: "#006a2b",
               "primary-dim": "#005d25",
               "primary-container": "#72fe8f",
-              "on-primary-container": "#005f26",
               surface: "#f6f7f6",
               "on-surface": "#2c2f2f",
-              "on-surface-variant": "#595c5b",
-              "surface-container-low": "#eff1f0",
-              "surface-container-highest": "#dadddc",
-              "surface-container-lowest": "#ffffff",
-              outline: "#757777",
               error: "#b02500",
             },
             fontFamily: { headline: ["Manrope"], body: ["Inter"] },
@@ -31,213 +25,139 @@
         },
       };
     </script>
-    <style>
-      .filled { font-variation-settings: 'FILL' 1; }
-      /* Optimización para scroll en móviles */
-      @media (max-width: 768px) {
-        .sidebar-hidden { transform: translateX(-100%); }
-        .main-expanded { margin-left: 0 !important; }
-      }
-    </style>
 </head>
 
 <body class="bg-surface font-body text-on-surface antialiased">
     <nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-gray-100">
       <div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto">
         <div class="flex items-center gap-4">
-          <button class="md:hidden p-2 text-primary" onclick="document.getElementById('sidebar').classList.toggle('-translate-x-full')">
-            <span class="material-symbols-outlined">menu</span>
-          </button>
           <a href="index.html" class="text-2xl font-black text-primary tracking-tighter font-headline">EcoCanje</a>
         </div>
-        
         <div class="flex items-center gap-4">
-          <div class="hidden sm:flex items-center bg-surface-container-low rounded-full px-4 py-2 border border-gray-100 focus-within:ring-2 focus-within:ring-primary/20 transition-all">
-            <span class="material-symbols-outlined text-outline text-sm">search</span>
-            <input class="bg-transparent border-none focus:ring-0 text-xs w-32 md:w-48 ml-2" placeholder="Buscar usuario o material..." type="text" />
-          </div>
-          <div class="flex gap-2">
-            <button class="p-2 hover:bg-green-50 rounded-full text-on-surface-variant transition-all relative">
-              <span class="material-symbols-outlined">notifications</span>
-              <span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
-            </button>
-            <a href="login.html" class="p-2 hover:bg-green-50 rounded-full text-on-surface-variant transition-all">
-              <span class="material-symbols-outlined filled">account_circle</span>
-            </a>
-          </div>
+            <span id="user-email" class="text-xs font-bold text-on-surface-variant">Cargando...</span>
+            <button onclick="cerrarSesion()" class="material-symbols-outlined text-error">logout</button>
         </div>
       </div>
     </nav>
 
-    <aside id="sidebar" class="h-screen w-64 fixed left-0 top-0 bg-white border-r border-gray-100 flex flex-col pt-24 z-40 transition-transform duration-300 md:translate-x-0 -translate-x-full">
-      <div class="px-6 mb-8">
-        <div class="flex items-center gap-3 p-3 bg-primary-container/10 rounded-2xl">
-          <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold font-headline">A</div>
-          <div>
-            <p class="text-sm font-black text-primary font-headline leading-tight">Admin Central</p>
-            <p class="text-[10px] text-on-surface-variant font-bold uppercase tracking-tighter">Nodo: Caribia - UCV</p>
-          </div>
-        </div>
-      </div>
-
-      <nav class="flex-1 space-y-1 px-3">
-        <a class="flex items-center gap-4 font-bold text-sm bg-primary text-white px-4 py-3 rounded-2xl shadow-lg shadow-primary/10 transition-all" href="admin.html">
-          <span class="material-symbols-outlined filled">dashboard</span>
-          <span>Panel Principal</span>
-        </a>
-        <a class="flex items-center gap-4 font-bold text-sm text-on-surface-variant hover:text-primary hover:bg-green-50 px-4 py-3 rounded-2xl transition-all" href="#">
-          <span class="material-symbols-outlined">verified</span>
-          <span>Validar Canjes</span>
-        </a>
-        <a class="flex items-center gap-4 font-bold text-sm text-on-surface-variant hover:text-primary hover:bg-green-50 px-4 py-3 rounded-2xl transition-all" href="#">
-          <span class="material-symbols-outlined">group</span>
-          <span>Comunidad</span>
-        </a>
-        <a class="flex items-center gap-4 font-bold text-sm text-on-surface-variant hover:text-primary hover:bg-green-50 px-4 py-3 rounded-2xl transition-all" href="#">
-          <span class="material-symbols-outlined">analytics</span>
-          <span>Estadísticas</span>
-        </a>
-      </nav>
-
-      <div class="p-6 mt-auto">
-        <button class="w-full py-4 bg-primary text-white font-black rounded-2xl text-xs flex items-center justify-center gap-2 hover:bg-primary-dim transition-all active:scale-95">
-          <span class="material-symbols-outlined text-sm">add</span>
-          NUEVA VALIDACIÓN
-        </button>
-        <a class="flex items-center gap-4 text-xs font-bold text-error mt-6 px-4 py-2 opacity-70 hover:opacity-100 transition-all" href="login.html">
-          <span class="material-symbols-outlined text-sm">logout</span>
-          <span>Cerrar Sesión</span>
-        </a>
-      </div>
-    </aside>
-
     <main class="md:ml-64 pt-28 pb-12 px-6 min-h-screen">
-      <header class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <div>
-          <h1 class="text-4xl font-black font-headline tracking-tighter leading-tight">Dashboard Administrativo</h1>
-          <p class="text-on-surface-variant mt-1 font-medium italic">Gestión de impacto ambiental en tiempo real.</p>
-        </div>
-        <div class="flex gap-3">
-          <div class="bg-white p-4 rounded-3xl shadow-sm border border-gray-100 border-l-4 border-primary flex items-center gap-3">
-            <span class="w-3 h-3 rounded-full bg-primary animate-pulse"></span>
-            <p class="text-xs font-black uppercase tracking-widest text-primary">Nodo Activo</p>
-          </div>
-        </div>
+      <header class="mb-10">
+        <h1 class="text-4xl font-black font-headline tracking-tighter">Panel de Control</h1>
+        <p class="text-on-surface-variant mt-1 font-medium italic">Gestión de impacto ambiental - UCV Caribia</p>
       </header>
 
-      <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+      <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
         <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100">
-          <div class="flex justify-between items-start mb-6">
-            <span class="material-symbols-outlined p-3 bg-green-50 text-primary rounded-2xl filled">token</span>
-            <span class="text-xs font-black text-primary bg-primary-container/30 px-2 py-1 rounded-lg">+12.4%</span>
-          </div>
-          <h3 class="text-on-surface-variant text-xs font-bold uppercase tracking-widest">ECO Emitidos</h3>
-          <p class="text-4xl font-black font-headline mt-2 text-primary">45,820</p>
+          <h3 class="text-on-surface-variant text-xs font-bold uppercase">Entregas Totales</h3>
+          <p id="stat-entregas" class="text-4xl font-black font-headline mt-2 text-primary">...</p>
         </div>
         <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100">
-          <div class="flex justify-between items-start mb-6">
-            <span class="material-symbols-outlined p-3 bg-blue-50 text-blue-600 rounded-2xl filled">recycling</span>
-            <span class="text-xs font-black text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">+5.2tn</span>
-          </div>
-          <h3 class="text-on-surface-variant text-xs font-bold uppercase tracking-widest">Toneladas Recibidas</h3>
-          <p class="text-4xl font-black font-headline mt-2 text-on-surface">128.4</p>
+          <h3 class="text-on-surface-variant text-xs font-bold uppercase">Usuarios UCV</h3>
+          <p id="stat-usuarios" class="text-4xl font-black font-headline mt-2 text-on-surface">...</p>
         </div>
-        <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100">
-          <div class="flex justify-between items-start mb-6">
-            <span class="material-symbols-outlined p-3 bg-amber-50 text-amber-600 rounded-2xl filled">person_celebrate</span>
-          </div>
-          <h3 class="text-on-surface-variant text-xs font-bold uppercase tracking-widest">Usuarios Activos</h3>
-          <p class="text-4xl font-black font-headline mt-2 text-on-surface">1,240</p>
-        </div>
-        <div class="bg-primary p-8 rounded-[2.5rem] text-white relative overflow-hidden shadow-xl shadow-primary/20">
-          <h3 class="text-white/70 text-[10px] font-black uppercase tracking-widest mb-4">Meta Mensual</h3>
-          <p class="text-5xl font-black font-headline mb-4">84%</p>
-          <div class="w-full bg-white/20 h-2 rounded-full overflow-hidden">
-            <div class="bg-white h-full" style="width: 84%"></div>
-          </div>
-          <span class="material-symbols-outlined text-[100px] absolute -right-4 -bottom-4 opacity-10">eco</span>
+        <div class="bg-primary p-8 rounded-[2.5rem] text-white">
+          <h3 class="text-white/70 text-[10px] font-black uppercase">Estado del Sistema</h3>
+          <p class="text-2xl font-black font-headline mt-2">NODO ACTIVO</p>
         </div>
       </section>
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <section class="lg:col-span-2">
           <div class="bg-white rounded-[2.5rem] shadow-sm border border-gray-100 overflow-hidden">
-            <div class="p-8 border-b border-gray-50 flex justify-between items-center">
-              <h2 class="text-xl font-black font-headline">Nuevos Registros</h2>
-              <button class="text-primary font-bold text-xs hover:underline">Ver Auditoría</button>
+            <div class="p-8 border-b border-gray-50 flex justify-between">
+              <h2 class="text-xl font-black font-headline">Estudiantes Registrados</h2>
             </div>
             <div class="overflow-x-auto">
                 <table class="w-full text-left">
-                  <thead class="bg-gray-50/50 text-on-surface-variant text-[10px] uppercase font-black tracking-widest">
+                  <thead class="bg-gray-50/50 text-[10px] uppercase font-black tracking-widest">
                     <tr>
                       <th class="px-8 py-4">Usuario</th>
-                      <th class="px-8 py-4">Status</th>
-                      <th class="px-8 py-4 text-right">Acción</th>
+                      <th class="px-8 py-4">Tokens</th>
+                      <th class="px-8 py-4 text-right">Rol</th>
                     </tr>
                   </thead>
-                  <tbody class="divide-y divide-gray-50 text-sm font-medium">
-                    <tr class="hover:bg-green-50/30 transition-all">
-                      <td class="px-8 py-6">
-                        <p class="font-black">Mateo Silvestre</p>
-                        <p class="text-[10px] text-on-surface-variant">m.silvestre@ucv.edu.ve</p>
-                      </td>
-                      <td class="px-8 py-6">
-                        <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter">Activo</span>
-                      </td>
-                      <td class="px-8 py-6 text-right">
-                        <button class="material-symbols-outlined text-outline hover:text-primary transition-all">more_horiz</button>
-                      </td>
-                    </tr>
-                    <tr class="hover:bg-green-50/30 transition-all">
-                        <td class="px-8 py-6">
-                          <p class="font-black">Lucía Fernández</p>
-                          <p class="text-[10px] text-on-surface-variant">lfer@estudiantes.ucv.ve</p>
-                        </td>
-                        <td class="px-8 py-6">
-                          <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter">Activo</span>
-                        </td>
-                        <td class="px-8 py-6 text-right">
-                          <button class="material-symbols-outlined text-outline hover:text-primary transition-all">more_horiz</button>
-                        </td>
-                      </tr>
-                  </tbody>
+                  <tbody id="tabla-usuarios" class="divide-y divide-gray-50 text-sm">
+                    </tbody>
                 </table>
             </div>
           </div>
         </section>
 
-        <section class="space-y-6">
-          <div class="flex items-center justify-between">
-            <h2 class="text-xl font-black font-headline">Pendientes</h2>
-            <span class="bg-error text-white text-[10px] font-black px-3 py-1 rounded-full">3 URGENTES</span>
-          </div>
-          <div class="space-y-4">
-            <div class="bg-white p-6 rounded-[2rem] border border-gray-100 border-l-4 border-blue-500 shadow-sm hover:shadow-md transition-all">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <p class="font-black text-sm">Plástico PET - 15kg</p>
-                        <p class="text-[10px] font-bold text-on-surface-variant">Solicitado por: J. Pérez</p>
-                    </div>
-                    <span class="text-[10px] font-black text-outline">Hace 2h</span>
-                </div>
-                <div class="flex gap-2">
-                    <button class="flex-1 bg-primary text-white py-3 rounded-2xl font-black text-[10px] uppercase active:scale-95 transition-all">Validar</button>
-                    <button class="p-3 bg-gray-100 text-outline rounded-2xl hover:bg-error/10 hover:text-error transition-all"><span class="material-symbols-outlined text-sm">close</span></button>
-                </div>
+        <section>
+          <h2 class="text-xl font-black font-headline mb-6">Validaciones Pendientes</h2>
+          <div id="lista-pendientes" class="space-y-4">
             </div>
-          </div>
         </section>
       </div>
     </main>
 
-    <footer class="md:ml-64 bg-white border-t border-gray-100 py-10 px-8 text-center md:text-left">
-      <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-        <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">© 2026 EcoCanje-Caribia • UCV Ingeniería</p>
-        <div class="flex gap-6">
-          <a href="#" class="text-[10px] font-black text-primary uppercase hover:underline">Soporte Técnico</a>
-          <a href="#" class="text-[10px] font-black text-primary uppercase hover:underline">Políticas de Nodo</a>
-        </div>
-      </div>
-    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+      const SUPABASE_URL = 'https://bnhjmjvioumlpucqivfe.supabase.co';
+      const SUPABASE_KEY = 'Sb_publishable_hay5zTgbMYTKTwleDE5Dpg_pvZQX-ad';
+      const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+      // 1. Proteger la ruta (Solo para chichobs@gmail.com)
+      async function checkAdmin() {
+        const { data: { user } } = await _supabase.auth.getUser();
+        if (!user || user.email !== 'chichobs@gmail.com') {
+          alert("Acceso denegado: Se requieren credenciales de Administrador.");
+          window.location.href = 'login.html';
+          return;
+        }
+        document.getElementById('user-email').innerText = user.email;
+        cargarDatos();
+      }
+
+      async function cargarDatos() {
+        // Cargar Estadísticas
+        const { count: countEntregas } = await _supabase.from('entregas').select('*', { count: 'exact', head: true });
+        const { count: countUsers } = await _supabase.from('usuarios').select('*', { count: 'exact', head: true });
+        
+        document.getElementById('stat-entregas').innerText = countEntregas || 0;
+        document.getElementById('stat-usuarios').innerText = countUsers || 0;
+
+        // Cargar Tabla de Usuarios
+        const { data: usuarios } = await _supabase.from('usuarios').select('*').order('fecha_registro', { ascending: false });
+        const tbody = document.getElementById('tabla-usuarios');
+        tbody.innerHTML = usuarios.map(u => `
+          <tr class="hover:bg-green-50/30">
+            <td class="px-8 py-6">
+              <p class="font-black">${u.nombre_completo || 'Sin nombre'}</p>
+              <p class="text-[10px] text-gray-500">${u.correo_electronico}</p>
+            </td>
+            <td class="px-8 py-6 font-bold text-primary">${u.tokens_acumulados} ECO</td>
+            <td class="px-8 py-6 text-right"><span class="px-2 py-1 bg-gray-100 rounded text-[10px] uppercase">${u.rol}</span></td>
+          </tr>
+        `).join('');
+
+        // Cargar Pendientes
+        const { data: pendientes } = await _supabase.from('entregas').select('*').eq('estado', 'pendiente');
+        const lista = document.getElementById('lista-pendientes');
+        lista.innerHTML = pendientes.length ? pendientes.map(p => `
+            <div class="bg-white p-6 rounded-[2rem] border-l-4 border-blue-500 shadow-sm">
+                <p class="font-black text-sm">Entrega #${p.id}</p>
+                <p class="text-[10px] text-gray-500 mb-4">Tokens a sumar: ${p.tokens_estimados}</p>
+                <button onclick="validarEntrega(${p.id}, ${p.tokens_estimados})" class="w-full bg-primary text-white py-3 rounded-2xl font-black text-[10px] uppercase">Aprobar y Sumar</button>
+            </div>
+        `).join('') : '<p class="text-sm italic text-gray-400">No hay entregas pendientes.</p>';
+      }
+
+      async function validarEntrega(id, tokens) {
+        // Lógica para cambiar estado y podrías añadir aquí el UPDATE a la tabla usuarios
+        const { error } = await _supabase.from('entregas').update({ estado: 'aprobado' }).eq('id', id);
+        if (!error) {
+            alert("Entrega validada con éxito");
+            cargarDatos();
+        }
+      }
+
+      async function cerrarSesion() {
+        await _supabase.auth.signOut();
+        window.location.href = 'login.html';
+      }
+
+      checkAdmin();
+    </script>
 </body>
 </html>
